@@ -62,11 +62,11 @@ class _ListViewPageState extends State<ListViewPage> {
     '10. There are different types of careers you can pursue in your life. Which one will it be?'
   ];
 
-  void addCard() {
+  void addCard(String newTitle, String newDescription) {
     setState(() {
-      titleList.add('New Career');
-      imageList.add('image/new.png');
-      description.add('This is a new career option.');
+      titleList.add(newTitle);
+      imageList.add('assets/users/img/user_1.jpg');
+      description.add(newDescription);
     });
   }
 
@@ -76,6 +76,56 @@ class _ListViewPageState extends State<ListViewPage> {
       imageList.removeAt(index);
       description.removeAt(index);
     });
+  }
+
+  void showAddCardDialog(BuildContext context) {
+    String newTitle = '';
+    String newDescription = '';
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add Card'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                ),
+                onChanged: (value) {
+                  newTitle = value;
+                },
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                ),
+                onChanged: (value) {
+                  newDescription = value;
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                addCard(newTitle, newDescription);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -118,14 +168,15 @@ class _ListViewPageState extends State<ListViewPage> {
                       width: 20,
                     ),
                     SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            imageList[0],
-                          ),
-                        )),
+                      width: 100,
+                      height: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          imageList[index],
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Column(
@@ -150,13 +201,32 @@ class _ListViewPageState extends State<ListViewPage> {
                                 color: Colors.grey[500],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(titleList[index]),
+                      content: Text(description[index]),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
           );
         },
@@ -166,7 +236,7 @@ class _ListViewPageState extends State<ListViewPage> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              addCard();
+              showAddCardDialog(context);
             },
             child: const Icon(Icons.add),
           ),
