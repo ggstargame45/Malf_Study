@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -62,64 +61,6 @@ class _ListViewPageState extends State<ListViewPage> {
     '9. There are different types of careers you can pursue in your life. Which one will it be?',
     '10. There are different types of careers you can pursue in your life. Which one will it be?'
   ];
-
-  void showPopup(
-      BuildContext context, String title, String image, String description) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: 380,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    image,
-                    width: 200,
-                    height: 200,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    description,
-                    maxLines: 3,
-                    style: TextStyle(fontSize: 15, color: Colors.grey[500]),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.close),
-                  label: const Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   void addCard() {
     setState(() {
