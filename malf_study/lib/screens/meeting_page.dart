@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../data/json_data.dart';
 import '../network/network.dart';
 import '../screens/sliding_panel.dart';
@@ -53,7 +55,8 @@ class _MeetingPageState extends State<MeetingPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 alignment: Alignment.topLeft,
-                image: AssetImage('assets/1689420712322-431438052.jpg'),
+                image: NetworkImage(
+                    "http://3.36.185.179:8000/${jsonDecode(_jsonData[0].meetingPic)[0]}"),
                 fit: BoxFit.fitWidth,
               ),
             ),
