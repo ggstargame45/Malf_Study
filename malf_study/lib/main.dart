@@ -7,6 +7,7 @@ import 'dart:convert';
 
 Logger logger = Logger();
 
+
 class UrlItem {
   final int post_id;
   final String title;
@@ -218,12 +219,14 @@ class HttpWithHttpScreen extends StatelessWidget {
                                               url: state
                                                   .photos[index].meeting_pic,
                                               title: "장소 : ",
-                                              content: "${20}"),
+                                              content: "${state
+                                                  .photos[index].meething_location}"),
                                           _content(
                                               url: state
                                                   .photos[index].meeting_pic,
                                               title: " : ",
-                                              content: "${20}"),
+                                              content: "${state
+                                                  .photos[index].author_nation}"),
                                         ],
                                       )
                                     ],
@@ -245,7 +248,9 @@ class HttpWithHttpScreen extends StatelessWidget {
                         })),
                   ),
                   floatingActionButton: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                    },
                     child: const Icon(Icons.add),
                   ));
             })));
