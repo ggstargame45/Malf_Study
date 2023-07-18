@@ -5,12 +5,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../data/json_data.dart';
 
 class Network {
-  static const String url = 'http://3.36.185.179:8000/bulletin-board/post/0';
+  //static const String url = 'http://3.36.185.179:8000/bulletin-board/post/0';
 
-  static Future<JsonData> getInfo() async {
+  static Future<JsonData> getInfo(int postId) async {
     try {
       final response = await http
-          .get(Uri.parse('http://3.36.185.179:8000/bulletin-board/post/0'));
+          .get(Uri.parse('http://3.36.185.179:8000/bulletin-board/post/$postId'));
       if (response.statusCode == 200) {
         final JsonData meetingData = jsonDataFromJson(response.body);
         return meetingData;
@@ -24,10 +24,10 @@ class Network {
     }
   }
 
-  static void postinfo(Map<String, dynamic> data) async {
+  static void postinfo(Map<String, dynamic> data, int postId) async {
     try {
       await http.post(
-        Uri.parse('http://3.36.185.179:8000/bulletin-board/post/0'),
+        Uri.parse('http://3.36.185.179:8000/bulletin-board/post/$postId'),
         headers: <String, String>{
           'Content-Type': 'meeting_page/json; charset=UTF-8',
         },

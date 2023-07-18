@@ -119,8 +119,8 @@ class HttpWithHttpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: ChangeNotifierProvider<HttpProvider>(
+    return Scaffold(
+        body: ChangeNotifierProvider<HttpProvider>(
             create: (_) => HttpProvider()..started(),
             child: Consumer<HttpProvider>(builder: (context, state, child) {
               return Scaffold(
@@ -133,121 +133,136 @@ class HttpWithHttpScreen extends StatelessWidget {
                     child: ListView.builder(
                         itemCount: state.photos.length,
                         itemBuilder: ((context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 8),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                        MediaQuery.of(context).size.width *
-                                            0.2,
-                                        height:
-                                        MediaQuery.of(context).size.width *
-                                            0.2,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(12),
-                                          child: Image.network(
-                                            state.photos[index].meeting_pic,
-                                            fit: BoxFit.cover,
-                                            frameBuilder: (BuildContext context,
-                                                Widget child,
-                                                int? frame,
-                                                bool wasSynchronouslyLoaded) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(12),
-                                                  color: const Color.fromRGBO(
-                                                      91, 91, 91, 1),
-                                                ),
-                                                child: child,
-                                              );
-                                            },
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                Widget child,
-                                                ImageChunkEvent?
-                                                loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(12),
-                                                  color: const Color.fromRGBO(
-                                                      91, 91, 91, 1),
-                                                ),
-                                                child: const Center(
-                                                  child:
-                                                  CircularProgressIndicator(
-                                                    color: Colors.amber,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Column(
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/detail',
+                                    arguments: state.photos[index].post_id);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 8),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      child: Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          _content(
-                                              url: state
-                                                  .photos[index].meeting_pic,
-                                              title: "ID : ",
-                                              content: state
-                                                  .photos[index].post_id
-                                                  .toString()),
-                                          _content(
-                                              url: state
-                                                  .photos[index].meeting_pic,
-                                              title: "Author : ",
-                                              content: state.photos[index]
-                                                  .author_nickname),
-                                          _content(
-                                              url: state
-                                                  .photos[index].meeting_pic,
-                                              title: "장소 : ",
-                                              content:
-                                              "${state.photos[index].meething_location}"),
-                                          _content(
-                                              url: state
-                                                  .photos[index].meeting_pic,
-                                              title: " : ",
-                                              content:
-                                              "${state.photos[index].author_nation}"),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.2,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.2,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.network(
+                                                state.photos[index].meeting_pic,
+                                                fit: BoxFit.cover,
+                                                frameBuilder: (BuildContext
+                                                        context,
+                                                    Widget child,
+                                                    int? frame,
+                                                    bool
+                                                        wasSynchronouslyLoaded) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              91, 91, 91, 1),
+                                                    ),
+                                                    child: child,
+                                                  );
+                                                },
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              91, 91, 91, 1),
+                                                    ),
+                                                    child: const Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Colors.amber,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              _content(
+                                                  url: state.photos[index]
+                                                      .meeting_pic,
+                                                  title: "ID : ",
+                                                  content: state
+                                                      .photos[index].post_id
+                                                      .toString()),
+                                              _content(
+                                                  url: state.photos[index]
+                                                      .meeting_pic,
+                                                  title: "Author : ",
+                                                  content: state.photos[index]
+                                                      .author_nickname),
+                                              _content(
+                                                  url: state.photos[index]
+                                                      .meeting_pic,
+                                                  title: "장소 : ",
+                                                  content:
+                                                      "${state.photos[index].meething_location}"),
+                                              _content(
+                                                  url: state.photos[index]
+                                                      .meeting_pic,
+                                                  title: " : ",
+                                                  content:
+                                                      "${state.photos[index].author_nation}"),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                if (state.photos.length - 1 == index &&
-                                    state.isAdd) ...[
-                                  const SizedBox(
-                                    height: 100,
-                                    child: Center(
-                                        child: CircularProgressIndicator(
+                                      ),
+                                    ),
+                                    if (state.photos.length - 1 == index &&
+                                        state.isAdd) ...[
+                                      const SizedBox(
+                                        height: 100,
+                                        child: Center(
+                                            child: CircularProgressIndicator(
                                           color: Colors.deepOrange,
                                         )),
-                                  ),
-                                ],
-                              ],
-                            ),
-                          );
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ));
                         })),
                   ),
                   floatingActionButton: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context,'/write');
+                    },
                     child: const Icon(Icons.add),
                   ));
             })));
@@ -260,9 +275,6 @@ class HttpWithHttpScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () async {
-        if (await canLaunchUrlString(url)) {
-          await launchUrlString(url, mode: LaunchMode.externalApplication);
-        }
       },
       child: Row(
         children: [
