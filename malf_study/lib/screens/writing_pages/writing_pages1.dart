@@ -24,16 +24,6 @@ class _WritingPages1 extends State<WritingPages1> {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              color: Colors.black,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             body: SafeArea(
