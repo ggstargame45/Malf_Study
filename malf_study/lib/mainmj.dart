@@ -1,7 +1,7 @@
-import 'package:cardview_example/myhomepage.dart';
+import 'myhomepage.dart';
 import 'package:flutter/material.dart';
 // import 'myhomepage.dart';
-import 'screen/writing_pages/writing_pages1.dart';
+import 'screens/writing_pages/writing_pages1.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'dart:io';
 

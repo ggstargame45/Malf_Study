@@ -1,6 +1,6 @@
 // import 'package:cardview_example/myhomepage.dart';
-import 'package:cardview_example/page_animation.dart';
-import 'package:cardview_example/screen/writing_pages/writing_pages2.dart';
+import '/page_animation.dart';
+import '/screens/writing_pages/writing_pages2.dart';
 // import 'package:cardview_example/screen/writing_pages/writing_pages_nextbutton.dart';
 import 'package:flutter/material.dart';
 import '../../uitl.dart';

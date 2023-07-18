@@ -1,5 +1,5 @@
 // import 'package:flutter/cupertino.dart';
-import 'package:cardview_example/screen/writing_pages/writing_pages1.dart';
+import '/screens/writing_pages/writing_pages1.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/handle_picker_button.dart';
 import '../../widgets/date_picker.dart';

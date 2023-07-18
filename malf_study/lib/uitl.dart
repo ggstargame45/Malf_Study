@@ -1,4 +1,4 @@
-import 'package:cardview_example/screen/writing_pages/writing_pages1.dart';
+import 'screens/writing_pages/writing_pages1.dart';
 import 'package:flutter/material.dart';
 
 double getHeightByPercentOfScreen(double percent, BuildContext context) {
