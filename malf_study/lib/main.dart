@@ -8,10 +8,9 @@ import './detail_page.dart';
 import './list_page.dart';
 import 'screens/writing_pages/writing_pages1.dart';
 
-
-
 void main() {
   //Provider.debugCheckInvalidValueType = null;
+  //TODO:hi junsoo_
   runApp(const MyApp());
 }
 
