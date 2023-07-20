@@ -1,17 +1,15 @@
 import 'dart:convert';
-import 'dart:math';
 
 import '../data/json_data.dart';
 import '../network/network.dart';
 import '../screens/sliding_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:logger/logger.dart';
-
-Logger logger = Logger();
 
 class MeetingPage extends StatefulWidget {
   MeetingPage({super.key});
+
+  static String routeName = "/detail";
 
   @override
   State<MeetingPage> createState() => _MeetingPageState();
@@ -20,32 +18,22 @@ class MeetingPage extends StatefulWidget {
 class _MeetingPageState extends State<MeetingPage> {
   List<MeetingData> _jsonData = List.empty();
   bool loading = false;
-  int picked_id = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Future.delayed(Duration.zero, () {
+    Network.getInfo().then((value) {
       setState(() {
-        final arguments = ModalRoute.of(context)!.settings.arguments;
-        picked_id = arguments as int;
-      });
-      Network.getInfo(picked_id).then((value) {
-        setState(() {
-          _jsonData = value.data;
-          loading = true;
-        });
+        _jsonData = value.data;
+        loading = true;
       });
     });
 
-
-    //print(_jsonData);
+    print(_jsonData);
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
@@ -85,7 +73,7 @@ class _MeetingPageState extends State<MeetingPage> {
             meetingData: _jsonData,
           ),
           collapsed: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.transparent,
             ),
           ),
@@ -110,7 +98,7 @@ class _MeetingPageState extends State<MeetingPage> {
                           "like_check": _jsonData[0].likeCheck,
                           "participation_status":
                               _jsonData[0].participantionStatus
-                        },picked_id);
+                        });
                       },
                       icon: Icon(Icons.thumb_up),
                       style: ButtonStyle(),
@@ -133,7 +121,7 @@ class _MeetingPageState extends State<MeetingPage> {
                     Network.postinfo({
                       "like_check": _jsonData[0].likeCheck,
                       "participation_status": _jsonData[0].participantionStatus
-                    }, picked_id);
+                    });
                   },
                   child: Text('참여하기'),
                 ),

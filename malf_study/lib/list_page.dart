@@ -117,6 +117,8 @@ AppBar appBar({
 class HttpWithHttpScreen extends StatelessWidget {
   const HttpWithHttpScreen({super.key});
 
+  static String routeName = "/";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -261,7 +263,7 @@ class HttpWithHttpScreen extends StatelessWidget {
                   ),
                   floatingActionButton: FloatingActionButton(
                     onPressed: () {
-                      Navigator.pushNamed(context,'/write');
+                      Navigator.pushNamed(context, '/write');
                     },
                     child: const Icon(Icons.add),
                   ));
@@ -274,8 +276,7 @@ class HttpWithHttpScreen extends StatelessWidget {
     required String url,
   }) {
     return GestureDetector(
-      onTap: () async {
-      },
+      onTap: () async {},
       child: Row(
         children: [
           Text(

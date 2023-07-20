@@ -8,7 +8,11 @@ import './detail_page.dart';
 import './list_page.dart';
 import 'screens/writing_pages/writing_pages1.dart';
 
-
+var namedRoutes = <String, WidgetBuilder>{
+  '/': (context) => const HttpWithHttpScreen(),
+  '/write': (context) => const WritingPages1(),
+  '/detail': (context) => MeetingPage(),
+};
 
 void main() {
   //Provider.debugCheckInvalidValueType = null;
@@ -21,11 +25,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: HttpWithHttpScreen.routeName,
+      //앞으로 전환되는 모든 화면
       routes: {
-        '/': (context) => const HttpWithHttpScreen(),
-        '/write': (context) => const WritingPages1(),
-        '/detail': (context) => MeetingPage(),
+        HttpWithHttpScreen.routeName: (context) => const HttpWithHttpScreen(),
+        WritingPages1.routeName: (context) => const WritingPages1(),
+        MeetingPage.routeName: (context) => MeetingPage(),
       },
     );
   }
