@@ -8,12 +8,11 @@ import '../network/network.dart';
 import '../screens/sliding_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:logger/logger.dart';
-
-Logger logger = Logger();
 
 class MeetingPage extends StatefulWidget {
   MeetingPage({super.key});
+
+  static String routeName = "/detail";
 
   @override
   State<MeetingPage> createState() => _MeetingPageState();
@@ -22,7 +21,6 @@ class MeetingPage extends StatefulWidget {
 class _MeetingPageState extends State<MeetingPage> {
   List<MeetingData> _jsonData = List.empty();
   bool loading = false;
-  int picked_id = 0;
 
   @override
   void initState() {

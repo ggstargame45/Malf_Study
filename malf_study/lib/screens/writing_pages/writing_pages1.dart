@@ -9,6 +9,9 @@ import '../../uitl.dart';
 
 class WritingPages1 extends StatefulWidget {
   const WritingPages1({super.key});
+
+  static String routeName = "/write";
+
   @override
   State<WritingPages1> createState() => _WritingPages1();
 }

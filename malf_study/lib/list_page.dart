@@ -8,39 +8,39 @@ import 'package:logger/logger.dart';
 Logger logger = Logger();
 
 class UrlItem {
-  final int post_id;
+  final int postId;
   final String title;
-  final String author_nickname;
-  final int author_nation;
-  final int user_type;
-  final int meeting_capacity;
-  final String meeting_pic;
-  final String meething_location;
-  final DateTime meeting_start_time;
+  final String authorNickname;
+  final int authorNation;
+  final int userType;
+  final int meetingCapacity;
+  final String meetingPic;
+  final String meethingLocation;
+  final DateTime meetingStartTime;
 
   UrlItem({
-    required this.post_id,
+    required this.postId,
     required this.title,
-    required this.author_nickname,
-    required this.author_nation,
-    required this.user_type,
-    required this.meeting_capacity,
-    required this.meeting_pic,
-    required this.meething_location,
-    required this.meeting_start_time,
+    required this.authorNickname,
+    required this.authorNation,
+    required this.userType,
+    required this.meetingCapacity,
+    required this.meetingPic,
+    required this.meethingLocation,
+    required this.meetingStartTime,
   });
 
   factory UrlItem.fromJson(Map<String, dynamic> json) {
     return UrlItem(
-      post_id: json['post_id'],
+      postId: json['post_id'],
       title: json['title'],
-      author_nickname: json['author_nickname'],
-      author_nation: json['author_nation'],
-      user_type: json['user_type'],
-      meeting_capacity: json['meeting_capacity'],
-      meeting_pic: "http://3.36.185.179:8000/${json['meeting_pic']}",
-      meething_location: json['meeting_location'],
-      meeting_start_time: DateTime.parse(json['meeting_start_time']),
+      authorNickname: json['author_nickname'],
+      authorNation: json['author_nation'],
+      userType: json['user_type'],
+      meetingCapacity: json['meeting_capacity'],
+      meetingPic: "http://3.36.185.179:8000/${json['meeting_pic']}",
+      meethingLocation: json['meeting_location'],
+      meetingStartTime: DateTime.parse(json['meeting_start_time']),
     );
   }
 }
@@ -117,6 +117,8 @@ AppBar appBar({
 class HttpWithHttpScreen extends StatelessWidget {
   const HttpWithHttpScreen({super.key});
 
+  static String routeName = "/";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +138,7 @@ class HttpWithHttpScreen extends StatelessWidget {
                           return GestureDetector(
                               onTap: () {
                                 Navigator.of(context).pushNamed('/detail',
-                                    arguments: state.photos[index].post_id);
+                                    arguments: state.photos[index].postId);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -161,7 +163,7 @@ class HttpWithHttpScreen extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                               child: Image.network(
-                                                state.photos[index].meeting_pic,
+                                                state.photos[index].meetingPic,
                                                 fit: BoxFit.cover,
                                                 frameBuilder: (BuildContext
                                                         context,
@@ -215,30 +217,30 @@ class HttpWithHttpScreen extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               _content(
-                                                  url: state.photos[index]
-                                                      .meeting_pic,
+                                                  url: state
+                                                      .photos[index].meetingPic,
                                                   title: "ID : ",
                                                   content: state
-                                                      .photos[index].post_id
+                                                      .photos[index].postId
                                                       .toString()),
                                               _content(
-                                                  url: state.photos[index]
-                                                      .meeting_pic,
+                                                  url: state
+                                                      .photos[index].meetingPic,
                                                   title: "Author : ",
                                                   content: state.photos[index]
-                                                      .author_nickname),
+                                                      .authorNickname),
                                               _content(
-                                                  url: state.photos[index]
-                                                      .meeting_pic,
+                                                  url: state
+                                                      .photos[index].meetingPic,
                                                   title: "장소 : ",
                                                   content:
-                                                      "${state.photos[index].meething_location}"),
+                                                      "${state.photos[index].meethingLocation}"),
                                               _content(
-                                                  url: state.photos[index]
-                                                      .meeting_pic,
+                                                  url: state
+                                                      .photos[index].meetingPic,
                                                   title: " : ",
                                                   content:
-                                                      "${state.photos[index].author_nation}"),
+                                                      "${state.photos[index].authorNation}"),
                                             ],
                                           )
                                         ],
