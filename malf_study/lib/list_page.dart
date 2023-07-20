@@ -261,7 +261,7 @@ class HttpWithHttpScreen extends StatelessWidget {
                   ),
                   floatingActionButton: FloatingActionButton(
                     onPressed: () {
-                      Navigator.pushNamed(context,'/write');
+                      Navigator.pushNamed(context, '/write');
                     },
                     child: const Icon(Icons.add),
                   ));
@@ -274,8 +274,7 @@ class HttpWithHttpScreen extends StatelessWidget {
     required String url,
   }) {
     return GestureDetector(
-      onTap: () async {
-      },
+      onTap: () async {},
       child: Row(
         children: [
           Text(

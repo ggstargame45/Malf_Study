@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:malf_study/screens/loading.dart';
+
 import '../data/json_data.dart';
 import '../network/network.dart';
 import '../screens/sliding_panel.dart';
@@ -28,10 +30,9 @@ class _MeetingPageState extends State<MeetingPage> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      setState(() {
-        final arguments = ModalRoute.of(context)!.settings.arguments;
-        picked_id = arguments as int;
-      });
+      final arguments = ModalRoute.of(context)!.settings.arguments;
+      picked_id = arguments as int;
+
       Network.getInfo(picked_id).then((value) {
         setState(() {
           _jsonData = value.data;
@@ -40,107 +41,113 @@ class _MeetingPageState extends State<MeetingPage> {
       });
     });
 
-
     //print(_jsonData);
   }
 
+  @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              // 뒤로가기 버튼 기능 구현
-            },
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.more_vert),
+    if (loading == false) {
+      return const Loading();
+    } else if (loading == true) {
+      return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.amber,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
-                // 더보기 버튼 기능 구현
+                Navigator.pop(context);
               },
             ),
-          ],
-        ),
-        body: SlidingUpPanel(
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                alignment: Alignment.topLeft,
-                image: NetworkImage(
-                    "http://3.36.185.179:8000/${jsonDecode(_jsonData[0].meetingPic)[0]}"),
-                fit: BoxFit.fitWidth,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  // 더보기 버튼 기능 구현
+                },
+              ),
+            ],
+          ),
+          body: SlidingUpPanel(
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  alignment: Alignment.topLeft,
+                  image: NetworkImage(
+                      "http://3.36.185.179:8000/${jsonDecode(_jsonData[0].meetingPic)[0]}"),
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
-          ),
-          parallaxEnabled: true,
-          parallaxOffset: 0.3,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-          minHeight: MediaQuery.of(context).size.height / 1.8,
-          maxHeight: MediaQuery.of(context).size.height,
-          panelBuilder: (sc) => PanelWidget(
-            controller: sc,
-            meetingData: _jsonData,
-          ),
-          collapsed: Container(
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
+            parallaxEnabled: true,
+            parallaxOffset: 0.3,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            minHeight: MediaQuery.of(context).size.height / 1.8,
+            maxHeight: MediaQuery.of(context).size.height,
+            panelBuilder: (sc) => PanelWidget(
+              controller: sc,
+              meetingData: _jsonData,
             ),
-          ),
-          footer: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Column(
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        if (_jsonData[0].likeCheck == 0) {
-                          setState(() {
-                            _jsonData[0].likeCheck = 1;
-                          });
-                        } else if (_jsonData[0].likeCheck == 1) {
-                          setState(() {
-                            _jsonData[0].likeCheck = 0;
-                          });
-                        }
-                        Network.postinfo({
-                          "like_check": _jsonData[0].likeCheck,
-                          "participation_status":
-                              _jsonData[0].participantionStatus
-                        },picked_id);
-                      },
-                      icon: Icon(Icons.thumb_up),
-                      style: ButtonStyle(),
-                      label:
-                          Column(children: [Text("${_jsonData[0].likeCount}")]),
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_jsonData[0].participantionStatus == 0) {
-                      setState(() {
-                        _jsonData[0].participantionStatus = 1;
-                      });
-                    } else if (_jsonData[0].participantionStatus == 1) {
-                      setState(() {
-                        _jsonData[0].participantionStatus = 0;
-                      });
-                    }
-                    Network.postinfo({
-                      "like_check": _jsonData[0].likeCheck,
-                      "participation_status": _jsonData[0].participantionStatus
-                    }, picked_id);
-                  },
-                  child: Text('참여하기'),
-                ),
-              ],
+            collapsed: Container(
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
             ),
-          ),
-        ));
+            footer: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Column(
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          if (_jsonData[0].likeCheck == 0) {
+                            setState(() {
+                              _jsonData[0].likeCheck = 1;
+                            });
+                          } else if (_jsonData[0].likeCheck == 1) {
+                            setState(() {
+                              _jsonData[0].likeCheck = 0;
+                            });
+                          }
+                          Network.postinfo({
+                            "like_check": _jsonData[0].likeCheck,
+                            "participation_status":
+                                _jsonData[0].participantionStatus
+                          }, picked_id);
+                        },
+                        icon: Icon(Icons.thumb_up),
+                        style: ButtonStyle(),
+                        label: Column(
+                            children: [Text("${_jsonData[0].likeCount}")]),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_jsonData[0].participantionStatus == 0) {
+                        setState(() {
+                          _jsonData[0].participantionStatus = 1;
+                        });
+                      } else if (_jsonData[0].participantionStatus == 1) {
+                        setState(() {
+                          _jsonData[0].participantionStatus = 0;
+                        });
+                      }
+                      Network.postinfo({
+                        "like_check": _jsonData[0].likeCheck,
+                        "participation_status":
+                            _jsonData[0].participantionStatus
+                      }, picked_id);
+                    },
+                    child: Text('참여하기'),
+                  ),
+                ],
+              ),
+            ),
+          ));
+    } else {
+      return Placeholder();
+    }
   }
 }
 

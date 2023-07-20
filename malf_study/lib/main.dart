@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:malf_study/screens/loading.dart';
 import 'package:malf_study/screens/meeting_page.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HttpWithHttpScreen(),
         '/write': (context) => const WritingPages1(),
         '/detail': (context) => MeetingPage(),
-        '/loading': (context) => MeetingPage(),
+        '/loading': (context) => const Loading(),
       },
     );
   }
