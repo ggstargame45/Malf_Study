@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HttpWithHttpScreen(),
         '/write': (context) => const WritingPages1(),
         '/detail': (context) => MeetingPage(),
+        '/loading': (context) => MeetingPage(),
       },
     );
   }

@@ -10,6 +10,8 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(
+      child: Text("loading"),
+    );
   }
 }
