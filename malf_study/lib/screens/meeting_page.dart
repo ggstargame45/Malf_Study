@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:malf_study/list_page.dart';
 import 'package:malf_study/screens/loading.dart';
-
 import '../data/json_data.dart';
 import '../network/network.dart';
 import '../screens/sliding_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 class MeetingPage extends StatefulWidget {
   MeetingPage({super.key});
@@ -21,10 +26,15 @@ class MeetingPage extends StatefulWidget {
 class _MeetingPageState extends State<MeetingPage> {
   List<MeetingData> _jsonData = List.empty();
   bool loading = false;
+  int picked_id = 0;
+  // List<String> parseMeetingPicList(String meetingPic) {
+  //   final List<String> _meetingPicList;
+  //   _meetingPicList = meetingPic.substring(0, meetingPic.length + 1).split(",");
+  //   return _meetingPicList;
+  // }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.delayed(Duration.zero, () {
@@ -34,12 +44,11 @@ class _MeetingPageState extends State<MeetingPage> {
       Network.getInfo(picked_id).then((value) {
         setState(() {
           _jsonData = value.data;
+
           loading = true;
         });
       });
     });
-
-    //print(_jsonData);
   }
 
   @override
@@ -47,18 +56,21 @@ class _MeetingPageState extends State<MeetingPage> {
     if (loading == false) {
       return const Loading();
     } else if (loading == true) {
+      List _meetingPicList = jsonDecode(_jsonData[0].meetingPic);
+      logger.d(_meetingPicList[0]);
+
       return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.amber,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.more_vert),
+                icon: const Icon(Icons.more_vert),
                 onPressed: () {
                   // 더보기 버튼 기능 구현
                 },
@@ -66,19 +78,30 @@ class _MeetingPageState extends State<MeetingPage> {
             ],
           ),
           body: SlidingUpPanel(
-            body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  alignment: Alignment.topLeft,
-                  image: NetworkImage(
-                      "http://3.36.185.179:8000/${jsonDecode(_jsonData[0].meetingPic)[0]}"),
-                  fit: BoxFit.fitWidth,
-                ),
+            body: CarouselSlider.builder(
+              itemCount: _meetingPicList.length,
+              itemBuilder: (BuildContext context, int itemIndex,
+                      int pageViewIndex) =>
+                  Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          "http://3.36.185.179:8000/${_meetingPicList[itemIndex]}")),
+              options: CarouselOptions(
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                height: 300,
+                aspectRatio: 0.22,
+                viewportFraction: 1.0,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                enlargeCenterPage: true,
+                enlargeFactor: 0.8,
+                onPageChanged: (index, reason) {},
+                scrollDirection: Axis.horizontal,
               ),
             ),
             parallaxEnabled: true,
             parallaxOffset: 0.3,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
             minHeight: MediaQuery.of(context).size.height / 1.8,
             maxHeight: MediaQuery.of(context).size.height,
             panelBuilder: (sc) => PanelWidget(
@@ -90,57 +113,54 @@ class _MeetingPageState extends State<MeetingPage> {
                 color: Colors.transparent,
               ),
             ),
-            footer: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          if (_jsonData[0].likeCheck == 0) {
-                            setState(() {
-                              _jsonData[0].likeCheck = 1;
-                            });
-                          } else if (_jsonData[0].likeCheck == 1) {
-                            setState(() {
-                              _jsonData[0].likeCheck = 0;
-                            });
-                          }
-                          Network.postinfo({
-                            "like_check": _jsonData[0].likeCheck,
-                            "participation_status":
-                                _jsonData[0].participantionStatus
-                          }, picked_id);
-                        },
-                        icon: Icon(Icons.thumb_up),
-                        style: ButtonStyle(),
-                        label: Column(
-                            children: [Text("${_jsonData[0].likeCount}")]),
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_jsonData[0].participantionStatus == 0) {
-                        setState(() {
-                          _jsonData[0].participantionStatus = 1;
-                        });
-                      } else if (_jsonData[0].participantionStatus == 1) {
-                        setState(() {
-                          _jsonData[0].participantionStatus = 0;
-                        });
-                      }
-                      Network.postinfo({
-                        "like_check": _jsonData[0].likeCheck,
-                        "participation_status":
-                            _jsonData[0].participantionStatus
-                      }, picked_id);
-                    },
-                    child: Text('참여하기'),
-                  ),
-                ],
-              ),
+            footer: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        if (_jsonData[0].likeCheck == 0) {
+                          setState(() {
+                            _jsonData[0].likeCheck = 1;
+                          });
+                        } else if (_jsonData[0].likeCheck == 1) {
+                          setState(() {
+                            _jsonData[0].likeCheck = 0;
+                          });
+                        }
+                        Network.postinfo({
+                          "like_check": _jsonData[0].likeCheck,
+                          "participation_status":
+                              _jsonData[0].participantionStatus
+                        }, picked_id);
+                      },
+                      icon: Icon(Icons.thumb_up),
+                      style: ButtonStyle(),
+                      label:
+                          Column(children: [Text("${_jsonData[0].likeCount}")]),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_jsonData[0].participantionStatus == 0) {
+                      setState(() {
+                        _jsonData[0].participantionStatus = 1;
+                      });
+                    } else if (_jsonData[0].participantionStatus == 1) {
+                      setState(() {
+                        _jsonData[0].participantionStatus = 0;
+                      });
+                    }
+                    Network.postinfo({
+                      "like_check": _jsonData[0].likeCheck,
+                      "participation_status": _jsonData[0].participantionStatus
+                    }, picked_id);
+                  },
+                  child: Text('참여하기'),
+                ),
+              ],
             ),
           ));
     } else {
@@ -148,140 +168,3 @@ class _MeetingPageState extends State<MeetingPage> {
     }
   }
 }
-
-// // ignore: must_be_immutable
-// class PanelWidget extends StatefulWidget {
-//   final ScrollController controller;
-//   List<MeetingData> meetingData;
-
-//   String removeExtension(String fileName) {
-//     int dotIndex = fileName.lastIndexOf('.');
-//     if (dotIndex != -1) {
-//       return fileName.substring(0, dotIndex);
-//     } else {
-//       return fileName;
-//     }
-//   }
-
-//   PanelWidget({Key? key, required this.controller, required this.meetingData})
-//       : super(key: key);
-
-//   @override
-//   State<PanelWidget> createState() => _PanelWidgetState();
-// }
-
-// class _PanelWidgetState extends State<PanelWidget> {
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(10.0),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 "투어",
-//                 textAlign: TextAlign.left,
-//               ),
-//               Text(
-//                 "${widget.meetingData[0].title}",
-//                 textScaleFactor: 1.5,
-//               ),
-//               Column(
-//                 children: [
-//                   ListTile(
-//                     leading: Container(
-//                       width: 60,
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Icon(Icons.location_searching_sharp),
-//                           Text('장소'),
-//                         ],
-//                       ),
-//                     ),
-//                     horizontalTitleGap: 20,
-//                     title: Text('"${widget.meetingData[0].meetingLocation}"'),
-//                   ),
-//                   ListTile(
-//                     leading: Container(
-//                       width: 60,
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Icon(Icons.location_searching_sharp),
-//                           Text('날짜'),
-//                         ],
-//                       ),
-//                     ),
-//                     horizontalTitleGap: 20,
-//                     title: Text("${widget.meetingData[0].meetingStartTime}"),
-//                   ),
-//                   ListTile(
-//                     leading: Container(
-//                       width: 60,
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Icon(Icons.location_searching_sharp),
-//                           Text('인원'),
-//                         ],
-//                       ),
-//                     ),
-//                     horizontalTitleGap: 20,
-//                     title: Text("${widget.meetingData[0].meetingCapacity}"),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         Padding(
-//           padding: EdgeInsets.all(8),
-//           child: Row(
-//             children: [
-//               CircleAvatar(
-//                   backgroundImage: NetworkImage(
-//                       "http://3.36.185.179:8000/${widget.meetingData[0].authorPicture}")),
-//               Column(
-//                 children: [
-//                   TextButton(
-//                     onPressed: () {},
-//                     child: Text(
-//                         widget.meetingData[0].userType == 1 ? "현지인" : "여행객"),
-//                   ),
-//                   Row(
-//                     children: [
-//                       Text("${widget.meetingData[0].authorNickname}"),
-//                       SizedBox(
-//                         width: 10.0,
-//                       ),
-//                       Text("${widget.meetingData[0].authorNation}"),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         Padding(
-//           padding: EdgeInsets.all(8),
-//           child: Text(
-//             "${widget.meetingData[0].content}",
-//           ),
-//         ),
-//         Padding(
-//           padding: EdgeInsets.all(8),
-//           child: Image(image: AssetImage("assets/1689420712322-431438052.jpg")),
-//         ),
-//       ],
-//     );
-//   }
-// }

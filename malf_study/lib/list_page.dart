@@ -81,7 +81,6 @@ class HttpProvider extends ChangeNotifier {
     List<UrlItem>? _data = await _fetchPost();
     photos = _data;
     currentPageNo = 2;
-    logger.e(currentPageNo);
     notifyListeners();
   }
 
