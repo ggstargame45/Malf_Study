@@ -78,25 +78,34 @@ class _MeetingPageState extends State<MeetingPage> {
             ],
           ),
           body: SlidingUpPanel(
-            body: CarouselSlider.builder(
-              itemCount: _meetingPicList.length,
-              itemBuilder: (BuildContext context, int itemIndex,
-                      int pageViewIndex) =>
-                  Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "http://3.36.185.179:8000/${_meetingPicList[itemIndex]}")),
-              options: CarouselOptions(
-                enlargeStrategy: CenterPageEnlargeStrategy.height,
-                height: 300,
-                aspectRatio: 0.22,
-                viewportFraction: 1.0,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                enlargeCenterPage: true,
-                enlargeFactor: 0.8,
-                onPageChanged: (index, reason) {},
-                scrollDirection: Axis.horizontal,
+            body: Container(
+              child: Column(
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: _meetingPicList.length,
+                    itemBuilder: (BuildContext context, int itemIndex,
+                            int pageViewIndex) =>
+                        Image(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                "http://3.36.185.179:8000/${_meetingPicList[itemIndex]}")),
+                    options: CarouselOptions(
+                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                      height: 300,
+                      aspectRatio: 0.22,
+                      viewportFraction: 1.0,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.8,
+                      onPageChanged: (index, reason) {},
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 400,
+                  )
+                ],
               ),
             ),
             parallaxEnabled: true,
