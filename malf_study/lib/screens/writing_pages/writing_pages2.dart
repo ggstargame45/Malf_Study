@@ -1,18 +1,22 @@
 // import 'package:flutter/cupertino.dart';
-import '/screens/writing_pages/writing_pages1.dart';
+// import '/screens/writing_pages/writing_pages1.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/handle_picker_button.dart';
 import '../../widgets/date_picker.dart';
 import '../../widgets/toggle_date_picker_button.dart';
-import '../../uitl.dart';
+import 'writing_pages_util.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:flutter/services.dart';
 
 class WritingPages2 extends StatelessWidget {
-  const WritingPages2({super.key});
+  // const WritingPages2({super.key});
 
   @override
   Widget build(BuildContext context) {
+    void moveBackScreen() {
+      Navigator.pop(context);
+    }
+
     return MaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -31,6 +35,7 @@ class WritingPages2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
+              // 글쓰기 화면 상단의 앱바
               padding: const EdgeInsets.only(top: 50),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +50,6 @@ class WritingPages2 extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
-                      // Navigator.popUntil(context, ModalRoute.withName("/"));
                       closeWritingPages(context);
                     },
                   )

@@ -1,11 +1,7 @@
-// import 'package:cardview_example/myhomepage.dart';
 import '/page_animation.dart';
 import '/screens/writing_pages/writing_pages2.dart';
-// import 'package:cardview_example/screen/writing_pages/writing_pages_nextbutton.dart';
 import 'package:flutter/material.dart';
-import '../../uitl.dart';
-// import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
+import 'writing_pages_util.dart';
 
 class WritingPages1 extends StatefulWidget {
   const WritingPages1({super.key});
@@ -30,9 +26,31 @@ class _WritingPages1 extends State<WritingPages1> {
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             body: SafeArea(
+                child: Padding(
+              padding: EdgeInsets.only(left: 5, right: 5),
               child: Column(
                 children: <Widget>[
-                  const WritingPagesAppbar(),
+                  // 글쓰기 화면 상단의 앱바
+                  WhiteBox(boxWidth: 100, boxHeight: 5),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_outlined),
+                        onPressed: () {
+                          closeWritingPages(context);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          closeWritingPages(context);
+                        },
+                      )
+                    ],
+                  ),
+                  WhiteBox(boxHeight: 2, boxWidth: 2),
                   const Row(
                     // 모임을 소개해주세요
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -184,49 +202,47 @@ class _WritingPages1 extends State<WritingPages1> {
                               ),
                             ))
                       ]),
+                  WhiteBox(boxWidth: 100, boxHeight: 2),
                   Row(
                     // 제목을 입력해주세요.
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, top: 10.0),
-                        child: Container(
-                          width: 376,
-                          height: 56,
-                          padding: const EdgeInsets.only(left: 16),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 0.50, color: Color(0xFFD3D3D3)),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: '제목을 입력해 주세요.',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFFBEBEBE),
-                                      fontSize: 16,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    border: InputBorder.none,
-                                  ),
-                                  controller: titleController,
-                                  onChanged: _isTitleNotNull,
-                                ),
-                              ),
-                            ],
+                      Container(
+                        width: getWidthByPercentOfScreen(90, context),
+                        height: getHeightByPercentOfScreen(7, context),
+                        padding: const EdgeInsets.only(left: 16),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 0.50, color: Color(0xFFD3D3D3)),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                      )
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  hintText: '제목을 입력해 주세요.',
+                                  hintStyle: TextStyle(
+                                    color: Color(0xFFBEBEBE),
+                                    fontSize: 16,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                                controller: titleController,
+                                onChanged: _isTitleNotNull,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   const Row(
@@ -302,7 +318,7 @@ class _WritingPages1 extends State<WritingPages1> {
                       ))
                 ],
               ),
-            )));
+            ))));
   }
 
   void _isTitleNotNull(String s) {
