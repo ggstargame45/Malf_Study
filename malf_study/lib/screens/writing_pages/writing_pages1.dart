@@ -29,7 +29,7 @@ class _WritingPages1 extends State<WritingPages1> {
             body: SafeArea(
               child: Column(
                 children: <Widget>[
-                  WhiteBox(boxWidth: 100, boxHeight: 5), // 맨 위 상단 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 5), // 맨 위 상단 공백
 
                   Row(
                     // 글쓰기 화면 상단의 앱바
@@ -38,25 +38,30 @@ class _WritingPages1 extends State<WritingPages1> {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back_ios_new_outlined),
+                        iconSize: getWidthByPercentOfScreen(6, context),
                         onPressed: () {
                           closeWritingPages(context);
                         },
                       ),
                       IconButton(
                         icon: const Icon(Icons.close),
+                        iconSize: getWidthByPercentOfScreen(8, context),
                         onPressed: () {
                           closeWritingPages(context);
                         },
                       )
                     ],
                   ),
-                  WhiteBox(boxHeight: 2, boxWidth: 2), // 앱바 <-> 모임을소개해주세요 공백
+                  WhiteBox(
+                    boxWidth: 0,
+                    boxHeight: 2,
+                  ), // 앱바 <-> 모임을소개해주세요 공백
                   Row(
                     // 모임을 소개해주세요
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      WhiteBox(boxWidth: 5, boxHeight: 1),
+                      WhiteBox(boxWidth: 5, boxHeight: 0),
                       const Text(
                         '모임을 소개해주세요.',
                         style: TextStyle(
@@ -68,12 +73,12 @@ class _WritingPages1 extends State<WritingPages1> {
                       ),
                     ],
                   ),
-                  WhiteBox(boxWidth: 3, boxHeight: 3), // 모임을 소개해주세요 <-> 사진 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 3), // 모임을 소개해주세요 <-> 사진 공백
                   Row(
                       // 사진
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        WhiteBox(boxWidth: 5, boxHeight: 1),
+                        WhiteBox(boxWidth: 5, boxHeight: 0),
                         const Text(
                           '사진',
                           style: TextStyle(
@@ -84,15 +89,12 @@ class _WritingPages1 extends State<WritingPages1> {
                           ),
                         )
                       ]),
-                  WhiteBox(boxHeight: 1, boxWidth: 1), // 사진 <-> 사진첨부 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 1), // 사진 <-> 사진첨부 공백
                   Row(
                     // 사진 첨부
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      WhiteBox(
-                        boxWidth: 5,
-                        boxHeight: 5,
-                      ),
+                      WhiteBox(boxWidth: 5, boxHeight: 0),
                       SizedBox(
                         width: getHeightByPercentOfScreen(10, context),
                         height: getHeightByPercentOfScreen(10, context),
@@ -186,12 +188,12 @@ class _WritingPages1 extends State<WritingPages1> {
                       )
                     ],
                   ),
-                  WhiteBox(boxWidth: 3, boxHeight: 3), // 사진첨부 <-> 제목 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 3), // 사진첨부 <-> 제목 공백
                   Row(
                       // 제목
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        WhiteBox(boxWidth: 5, boxHeight: 1),
+                        WhiteBox(boxWidth: 5, boxHeight: 0),
                         const Text(
                           '제목',
                           style: TextStyle(
@@ -202,7 +204,7 @@ class _WritingPages1 extends State<WritingPages1> {
                           ),
                         )
                       ]),
-                  WhiteBox(boxWidth: 1, boxHeight: 1), // 제목 <-> 제목을 입력해주세요 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 1), // 제목 <-> 제목을 입력해주세요 공백
                   Row(
                     // 제목을 입력해주세요.
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +212,7 @@ class _WritingPages1 extends State<WritingPages1> {
                       Container(
                         width: getWidthByPercentOfScreen(90, context),
                         height: getHeightByPercentOfScreen(6.5, context),
-                        padding: const EdgeInsets.only(left: 16),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         decoration: ShapeDecoration(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -250,7 +252,7 @@ class _WritingPages1 extends State<WritingPages1> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      WhiteBox(boxWidth: 5, boxHeight: 1.5),
+                      WhiteBox(boxWidth: 5, boxHeight: 0),
                       Text(
                         '40자 이하로 입력해주세요.',
                         style: TextStyle(
@@ -263,7 +265,7 @@ class _WritingPages1 extends State<WritingPages1> {
                       ),
                     ],
                   ),
-                  WhiteBox(boxWidth: 1, boxHeight: 1.5), // 40자이하 <-> 내용 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 1.5), // 40자이하 <-> 내용 공백
                   Row(
                       // 내용
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -279,16 +281,16 @@ class _WritingPages1 extends State<WritingPages1> {
                           ),
                         )
                       ]),
-                  WhiteBox(boxWidth: 1, boxHeight: 1), // 내용 <-> 소개글을 입력해주세요 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 1), // 내용 <-> 소개글을 입력해주세요 공백
                   Row(
                     // 소개글을 입력해주세요.(선택)
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      WhiteBox(boxWidth: 5, boxHeight: 1),
+                      WhiteBox(boxWidth: 5, boxHeight: 0),
                       Container(
                         width: getWidthByPercentOfScreen(90, context),
                         height: getHeightByPercentOfScreen(20, context),
-                        padding: const EdgeInsets.only(left: 16),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         decoration: ShapeDecoration(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -304,6 +306,7 @@ class _WritingPages1 extends State<WritingPages1> {
                           children: [
                             Flexible(
                               child: TextField(
+                                maxLines: null,
                                 decoration: InputDecoration(
                                     hintText: '소개글을 입력해주세요.(선택)',
                                     hintStyle: TextStyle(
@@ -331,7 +334,7 @@ class _WritingPages1 extends State<WritingPages1> {
                           }
                         : null,
                   ),
-                  WhiteBox(boxWidth: 1, boxHeight: 3)
+                  WhiteBox(boxWidth: 0, boxHeight: 3)
                 ],
               ),
             )));
