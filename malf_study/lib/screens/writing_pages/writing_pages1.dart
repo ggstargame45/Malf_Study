@@ -3,6 +3,14 @@ import '/screens/writing_pages/writing_pages2.dart';
 import 'package:flutter/material.dart';
 import 'writing_pages_util.dart';
 
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
+}
+
 class WritingPages1 extends StatefulWidget {
   const WritingPages1({super.key});
 
@@ -17,8 +25,17 @@ class _WritingPages1 extends State<WritingPages1> {
   final contentController = TextEditingController();
   bool _isButtonEnabled = false;
   Color _titleOver40TextColor = Colors.white;
+
   @override
   Widget build(BuildContext context) {
+    double _isKeyboardDetected() {
+      if (MediaQuery.of(context).viewInsets.bottom != 0) {
+        return 22;
+      } else {
+        return 0;
+      }
+    }
+
     return GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -40,7 +57,7 @@ class _WritingPages1 extends State<WritingPages1> {
                         icon: const Icon(Icons.arrow_back_ios_new_outlined),
                         iconSize: getWidthByPercentOfScreen(6, context),
                         onPressed: () {
-                          closeWritingPages(context);
+                          Navigator.pop(context);
                         },
                       ),
                       IconButton(
@@ -56,273 +73,333 @@ class _WritingPages1 extends State<WritingPages1> {
                     boxWidth: 0,
                     boxHeight: 2,
                   ), // 앱바 <-> 모임을소개해주세요 공백
-                  Row(
-                    // 모임을 소개해주세요
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      WhiteBox(boxWidth: 5, boxHeight: 0),
-                      const Text(
-                        '모임을 소개해주세요.',
-                        style: TextStyle(
-                          color: Color(0xFF292524),
-                          fontSize: 24,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                  WhiteBox(boxWidth: 0, boxHeight: 3), // 모임을 소개해주세요 <-> 사진 공백
-                  Row(
-                      // 사진
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        WhiteBox(boxWidth: 5, boxHeight: 0),
-                        const Text(
-                          '사진',
-                          style: TextStyle(
-                            color: Color(0xFF808080),
-                            fontSize: 18,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ]),
-                  WhiteBox(boxWidth: 0, boxHeight: 1), // 사진 <-> 사진첨부 공백
-                  Row(
-                    // 사진 첨부
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      WhiteBox(boxWidth: 5, boxHeight: 0),
-                      SizedBox(
-                        width: getHeightByPercentOfScreen(10, context),
-                        height: getHeightByPercentOfScreen(10, context),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Container(
-                                width: getHeightByPercentOfScreen(10, context),
-                                height: getHeightByPercentOfScreen(10, context),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFF7F7F7),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                        width: 0.50, color: Color(0xFFD3D3D3)),
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 21,
-                              top: 13,
-                              child: SizedBox(
-                                width: 43,
-                                height: 38,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      child: Container(
-                                        width: 38,
-                                        height: 38,
-                                        padding: const EdgeInsets.only(
-                                          top: 4.75,
-                                          left: 3.56,
-                                          right: 3.56,
-                                          bottom: 5.94,
-                                        ),
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: const BoxDecoration(),
-                                        child: const Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [],
-                                        ),
+
+                  SizedBox(
+                    height: getHeightByPercentOfScreen(
+                        70 - _isKeyboardDetected(), context),
+                    child: Form(
+                      child: Expanded(
+                        child: ScrollConfiguration(
+                            behavior: MyBehavior(),
+                            child: SingleChildScrollView(
+                              child: Column(children: [
+                                Row(
+                                  // 모임을 소개해주세요
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    WhiteBox(boxWidth: 5, boxHeight: 0),
+                                    const Text(
+                                      '모임을 소개해주세요.',
+                                      style: TextStyle(
+                                        color: Color(0xFF292524),
+                                        fontSize: 24,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    Positioned(
-                                        left: 25,
-                                        top: 19,
-                                        child: Container(
-                                          width: 18,
-                                          height: 18,
-                                          decoration: const ShapeDecoration(
-                                            color: Color(0xFF61C3FF),
-                                            shape: OvalBorder(
-                                              side: BorderSide(
-                                                  width: 0.50,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          child: const Icon(Icons.add),
-                                        )),
                                   ],
                                 ),
-                              ),
-                            ),
-                            const Positioned(
-                              left: 25,
-                              top: 56,
-                              child: Text(
-                                '0 / 10',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.w400,
-                                  height: 12,
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 3), // 모임을 소개해주세요 <-> 사진 공백
+                                Row(
+                                    // 사진
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      WhiteBox(boxWidth: 5, boxHeight: 0),
+                                      const Text(
+                                        '사진',
+                                        style: TextStyle(
+                                          color: Color(0xFF808080),
+                                          fontSize: 18,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ]),
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 1), // 사진 <-> 사진첨부 공백
+                                Row(
+                                  // 사진 첨부
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    WhiteBox(boxWidth: 5, boxHeight: 0),
+                                    SizedBox(
+                                      width: getHeightByPercentOfScreen(
+                                          10, context),
+                                      height: getHeightByPercentOfScreen(
+                                          10, context),
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            left: 0,
+                                            top: 0,
+                                            child: Container(
+                                              width: getHeightByPercentOfScreen(
+                                                  10, context),
+                                              height:
+                                                  getHeightByPercentOfScreen(
+                                                      10, context),
+                                              decoration: ShapeDecoration(
+                                                color: const Color(0xFFF7F7F7),
+                                                shape: RoundedRectangleBorder(
+                                                  side: const BorderSide(
+                                                      width: 0.50,
+                                                      color: Color(0xFFD3D3D3)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(14),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: 21,
+                                            top: 13,
+                                            child: SizedBox(
+                                              width: 43,
+                                              height: 38,
+                                              child: Stack(
+                                                children: [
+                                                  Positioned(
+                                                    left: 0,
+                                                    top: 0,
+                                                    child: Container(
+                                                      width: 38,
+                                                      height: 38,
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 4.75,
+                                                        left: 3.56,
+                                                        right: 3.56,
+                                                        bottom: 5.94,
+                                                      ),
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration:
+                                                          const BoxDecoration(),
+                                                      child: const Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                      left: 25,
+                                                      top: 19,
+                                                      child: Container(
+                                                        width: 18,
+                                                        height: 18,
+                                                        decoration:
+                                                            const ShapeDecoration(
+                                                          color:
+                                                              Color(0xFF61C3FF),
+                                                          shape: OvalBorder(
+                                                            side: BorderSide(
+                                                                width: 0.50,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
+                                                        child: const Icon(
+                                                            Icons.add),
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const Positioned(
+                                            left: 25,
+                                            top: 56,
+                                            child: Text(
+                                              '0 / 10',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: 'Pretendard',
+                                                fontWeight: FontWeight.w400,
+                                                height: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  WhiteBox(boxWidth: 0, boxHeight: 3), // 사진첨부 <-> 제목 공백
-                  Row(
-                      // 제목
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        WhiteBox(boxWidth: 5, boxHeight: 0),
-                        const Text(
-                          '제목',
-                          style: TextStyle(
-                            color: Color(0xFF808080),
-                            fontSize: 18,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ]),
-                  WhiteBox(boxWidth: 0, boxHeight: 1), // 제목 <-> 제목을 입력해주세요 공백
-                  Row(
-                    // 제목을 입력해주세요.
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: getWidthByPercentOfScreen(90, context),
-                        height: getHeightByPercentOfScreen(6.5, context),
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 0.50, color: Color(0xFFD3D3D3)),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  hintText: '제목을 입력해주세요.',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFBEBEBE),
-                                    fontSize: 16,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  border: InputBorder.none,
-                                ),
-                                controller: titleController,
-                                onChanged: _checkTitleCondition,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  WhiteBox(
-                      boxWidth: 1, boxHeight: 1), // 제목을 입력해주세요 <-> 40자이하 공백
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      WhiteBox(boxWidth: 5, boxHeight: 0),
-                      Text(
-                        '40자 이하로 입력해주세요.',
-                        style: TextStyle(
-                          color: _titleOver40TextColor,
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                          height: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  WhiteBox(boxWidth: 0, boxHeight: 1.5), // 40자이하 <-> 내용 공백
-                  Row(
-                      // 내용
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        WhiteBox(boxWidth: 5, boxHeight: 1),
-                        const Text(
-                          '내용',
-                          style: TextStyle(
-                            color: Color(0xFF808080),
-                            fontSize: 18,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ]),
-                  WhiteBox(boxWidth: 0, boxHeight: 1), // 내용 <-> 소개글을 입력해주세요 공백
-                  Row(
-                    // 소개글을 입력해주세요.(선택)
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      WhiteBox(boxWidth: 5, boxHeight: 0),
-                      Container(
-                        width: getWidthByPercentOfScreen(90, context),
-                        height: getHeightByPercentOfScreen(20, context),
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 0.50, color: Color(0xFFD3D3D3)),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: TextField(
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                    hintText: '소개글을 입력해주세요.(선택)',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFFBEBEBE),
-                                      fontSize: 16,
-                                      fontFamily: 'Pretendard',
-                                      fontWeight: FontWeight.w500,
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 4.5), // 사진첨부 <-> 제목 공백
+                                Row(
+                                    // 제목
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      WhiteBox(boxWidth: 5, boxHeight: 0),
+                                      const Text(
+                                        '제목',
+                                        style: TextStyle(
+                                          color: Color(0xFF808080),
+                                          fontSize: 18,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ]),
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 1), // 제목 <-> 제목을 입력해주세요 공백
+                                Row(
+                                  // 제목을 입력해주세요.
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      width: getWidthByPercentOfScreen(
+                                          90, context),
+                                      height: getHeightByPercentOfScreen(
+                                          6.5, context),
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                              width: 0.50,
+                                              color: Color(0xFFD3D3D3)),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              decoration: const InputDecoration(
+                                                hintText: '제목을 입력해주세요.',
+                                                hintStyle: TextStyle(
+                                                  color: Color(0xFFBEBEBE),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                border: InputBorder.none,
+                                              ),
+                                              controller: titleController,
+                                              onChanged: _checkTitleCondition,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                          ],
-                        ),
+                                  ],
+                                ),
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 1.5), // 제목을 입력해주세요 <-> 40자이하 공백
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    WhiteBox(boxWidth: 5, boxHeight: 0),
+                                    Text(
+                                      '40자 이하로 입력해주세요.',
+                                      style: TextStyle(
+                                        color: _titleOver40TextColor,
+                                        fontSize: 14,
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w500,
+                                        height: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 1.5), // 40자이하 <-> 내용 공백
+                                Row(
+                                    // 내용
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      WhiteBox(boxWidth: 5, boxHeight: 1),
+                                      const Text(
+                                        '내용',
+                                        style: TextStyle(
+                                          color: Color(0xFF808080),
+                                          fontSize: 18,
+                                          fontFamily: 'Pretendard',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ]),
+                                WhiteBox(
+                                    boxWidth: 0,
+                                    boxHeight: 1.5), // 내용 <-> 소개글을 입력해주세요 공백
+                                Row(
+                                  // 소개글을 입력해주세요.(선택)
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    WhiteBox(boxWidth: 5, boxHeight: 0),
+                                    Container(
+                                      width: getWidthByPercentOfScreen(
+                                          90, context),
+                                      height: getHeightByPercentOfScreen(
+                                          20, context),
+                                      padding: const EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                              width: 0.50,
+                                              color: Color(0xFFD3D3D3)),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      child: const Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            child: TextField(
+                                              maxLines: null,
+                                              decoration: InputDecoration(
+                                                  hintText: '소개글을 입력해주세요.(선택)',
+                                                  hintStyle: TextStyle(
+                                                    color: Color(0xFFBEBEBE),
+                                                    fontSize: 16,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  border: InputBorder.none),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ]),
+                            )),
                       ),
-                    ],
+                    ),
                   ),
+
                   const Spacer(),
                   WritingPagesNextbutton(
                     pressNextButton: _isButtonEnabled
