@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:malf_study/screens/writing_pages/writing_pages1.dart';
 import 'writing_pages_util.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '/page_animation.dart';
+import 'writing_pages3.dart';
 
 class WritingPages2 extends ConsumerWidget {
   const WritingPages2({super.key});
@@ -12,15 +13,6 @@ class WritingPages2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ko', 'KO'),
-        Locale('en', 'US'),
-      ],
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
@@ -51,6 +43,9 @@ class WritingPages2 extends ConsumerWidget {
                 )
               ],
             ),
+
+            WhiteBox(boxWidth: 0, boxHeight: 2), // 앱바 <-> 일정과 시간을 입력해주세요 공백
+
             const Row(
               // 일정과 시간을 입력해주세요.
               mainAxisAlignment: MainAxisAlignment.start,
@@ -125,6 +120,18 @@ class WritingPages2 extends ConsumerWidget {
                 ),
               ],
             ),
+            const Spacer(),
+            WritingPagesNextbutton(
+              pressNextButton: true
+                  ? () {
+                      PageRouteWithAnimation pageRouteWithAnimation =
+                          PageRouteWithAnimation(WritingPages3());
+                      Navigator.push(
+                          context, pageRouteWithAnimation.slideRitghtToLeft());
+                    }
+                  : null,
+            ),
+            WhiteBox(boxWidth: 0, boxHeight: 3)
           ],
         )),
       ),

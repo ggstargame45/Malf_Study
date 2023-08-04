@@ -12,8 +12,6 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-String writingPagesTitle = "";
-
 final writingPagesTitleProvider =
     StateNotifierProvider<TitleNotifier, String>((ref) {
   return TitleNotifier();
@@ -21,6 +19,19 @@ final writingPagesTitleProvider =
 
 class TitleNotifier extends StateNotifier<String> {
   TitleNotifier() : super('');
+
+  void setText(String text) {
+    state = text;
+  }
+}
+
+final writingPagesContentProvider =
+    StateNotifierProvider<ContentNotifier, String>((ref) {
+  return ContentNotifier();
+});
+
+class ContentNotifier extends StateNotifier<String> {
+  ContentNotifier() : super('');
 
   void setText(String text) {
     state = text;
@@ -77,10 +88,7 @@ class WritingPages1 extends ConsumerWidget {
                       )
                     ],
                   ),
-                  WhiteBox(
-                    boxWidth: 0,
-                    boxHeight: 2,
-                  ), // 앱바 <-> 모임을소개해주세요 공백
+                  WhiteBox(boxWidth: 0, boxHeight: 2), // 앱바 <-> 모임을소개해주세요 공백
 
                   SizedBox(
                     height: getHeightByPercentOfScreen(
@@ -382,7 +390,7 @@ class WritingPages1 extends ConsumerWidget {
                                               BorderRadius.circular(16),
                                         ),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -392,15 +400,24 @@ class WritingPages1 extends ConsumerWidget {
                                           Flexible(
                                             child: TextField(
                                               maxLines: null,
-                                              decoration: InputDecoration(
-                                                  hintText: '소개글을 입력해주세요.(선택)',
-                                                  hintStyle: TextStyle(
-                                                    color: Color(0xFFBEBEBE),
-                                                    fontSize: 16,
-                                                    fontFamily: 'Pretendard',
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  border: InputBorder.none),
+                                              decoration: const InputDecoration(
+                                                hintText: '소개글을 입력해주세요.(선택)',
+                                                hintStyle: TextStyle(
+                                                  color: Color(0xFFBEBEBE),
+                                                  fontSize: 16,
+                                                  fontFamily: 'Pretendard',
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                border: InputBorder.none,
+                                              ),
+                                              onChanged: (text) {
+                                                ref
+                                                    .read(
+                                                        writingPagesContentProvider
+                                                            .notifier)
+                                                    .setText(text);
+                                                _checkTitleCondition(text);
+                                              },
                                             ),
                                           ),
                                         ],
