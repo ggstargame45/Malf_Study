@@ -60,27 +60,27 @@ class _WritingPages1 extends State<WritingPages1> {
                 children: <Widget>[
                   WhiteBox(boxWidth: 0, boxHeight: 5), // 맨 위 상단 공백
 
-                  // Row(
-                  //   // 글쓰기 화면 상단의 앱바
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     IconButton(
-                  //       icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                  //       iconSize: getWidthByPercentOfScreen(6, context),
-                  //       onPressed: () {
-                  //         Navigator.pop(context);
-                  //       },
-                  //     ),
-                  //     IconButton(
-                  //       icon: const Icon(Icons.close),
-                  //       iconSize: getWidthByPercentOfScreen(8, context),
-                  //       onPressed: () {
-                  //         closeWritingPages(context);
-                  //       },
-                  //     )
-                  //   ],
-                  // ),
+                  Row(
+                    // 글쓰기 화면 상단의 앱바
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new_outlined),
+                        iconSize: getWidthByPercentOfScreen(6, context),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        iconSize: getWidthByPercentOfScreen(8, context),
+                        onPressed: () {
+                          closeWritingPages(context);
+                        },
+                      )
+                    ],
+                  ),
                   WhiteBox(
                     boxWidth: 0,
                     boxHeight: 2,
