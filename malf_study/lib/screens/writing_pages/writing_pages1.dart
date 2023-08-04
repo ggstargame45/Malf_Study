@@ -12,34 +12,30 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-final titleController = TextEditingController();
-final contentController = TextEditingController();
+String writingPagesTitle = "";
 
-final writingPages1TitleProvider = Provider<String>(
-  (ref) {
-    return ref.watch(_writingPages1TitleProvider);
-  },
-);
+final writingPagesTitleProvider =
+    StateNotifierProvider<TitleNotifier, String>((ref) {
+  return TitleNotifier();
+});
 
-final _writingPages1TitleProvider =
-    StateProvider<String>((ref) => titleController.text);
+class TitleNotifier extends StateNotifier<String> {
+  TitleNotifier() : super('');
 
-class WritingPages1 extends StatefulWidget {
-  const WritingPages1({super.key});
-  static String routeName = "/write";
-
-  @override
-  State<WritingPages1> createState() => _WritingPages1();
+  void setText(String text) {
+    state = text;
+  }
 }
 
-class _WritingPages1 extends State<WritingPages1> {
-  // final titleController = TextEditingController();
-  // final contentController = TextEditingController();
+class WritingPages1 extends ConsumerWidget {
+  WritingPages1({super.key});
+  static String routeName = "/write";
+
   bool _isButtonEnabled = false;
   Color _titleOver40TextColor = Colors.white;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double isKeyboardDetected() {
       if (MediaQuery.of(context).viewInsets.bottom != 0) {
         return 22;
@@ -299,20 +295,26 @@ class _WritingPages1 extends State<WritingPages1> {
                                         children: [
                                           Expanded(
                                             child: TextField(
-                                              decoration: const InputDecoration(
-                                                hintText: '제목을 입력해주세요.',
-                                                hintStyle: TextStyle(
-                                                  color: Color(0xFFBEBEBE),
-                                                  fontSize: 16,
-                                                  fontFamily: 'Pretendard',
-                                                  fontWeight: FontWeight.w500,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  hintText: '제목을 입력해주세요.',
+                                                  hintStyle: TextStyle(
+                                                    color: Color(0xFFBEBEBE),
+                                                    fontSize: 16,
+                                                    fontFamily: 'Pretendard',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  border: InputBorder.none,
                                                 ),
-                                                border: InputBorder.none,
-                                              ),
-                                              controller: titleController,
-                                              onChanged: _checkTitleCondition,
-                                            ),
-                                          ),
+                                                onChanged: (text) {
+                                                  ref
+                                                      .read(
+                                                          writingPagesTitleProvider
+                                                              .notifier)
+                                                      .setText(text);
+                                                  _checkTitleCondition(text);
+                                                }),
+                                          )
                                         ],
                                       ),
                                     ),
@@ -430,13 +432,12 @@ class _WritingPages1 extends State<WritingPages1> {
   }
 
   void _checkTitleCondition(String s) {
-    setState(() {
-      _isButtonEnabled = s.isNotEmpty && (s.length <= 40);
-      if (s.length > 40) {
-        _titleOver40TextColor = const Color(0xFFFF6060);
-      } else {
-        _titleOver40TextColor = Colors.white;
-      }
-    });
+    _isButtonEnabled = s.isNotEmpty && (s.length <= 40);
+    if (s.length > 40) {
+      _titleOver40TextColor = const Color(0xFFFF6060);
+    } else {
+      _titleOver40TextColor = Colors.white;
+    }
+    ;
   }
 }

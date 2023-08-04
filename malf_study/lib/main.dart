@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 var namedRoutes = <String, WidgetBuilder>{
   '/': (context) => const HttpWithHttpScreen(),
-  '/write': (context) => const WritingPages1(),
+  '/write': (context) => WritingPages1(),
   '/detail': (context) => MeetingPage(),
 };
 
@@ -23,17 +23,17 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       initialRoute: HttpWithHttpScreen.routeName,
       //앞으로 전환되는 모든 화면
       routes: {
         '/': (context) => const HttpWithHttpScreen(),
-        '/write': (context) => const WritingPages1(),
+        '/write': (context) => WritingPages1(),
         '/detail': (context) => MeetingPage(),
         '/loading': (context) => const Loading(),
       },

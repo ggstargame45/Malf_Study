@@ -11,8 +11,6 @@ class WritingPages2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final readWritingPagesTitle = ref.watch(writingPages1TitleProvider);
-
     return MaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -102,15 +100,15 @@ class WritingPages2 extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Test: ${ref.read(writingPages1TitleProvider)}',
-                                  style: TextStyle(
+                                  'Test: ${ref.watch(writingPagesTitleProvider)}',
+                                  style: const TextStyle(
                                     color: Color(0xFF808080),
                                     fontSize: 14,
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   '2023.07.01 (월)',
                                   style: TextStyle(
                                     color: Color(0xFF1A1A1A),
