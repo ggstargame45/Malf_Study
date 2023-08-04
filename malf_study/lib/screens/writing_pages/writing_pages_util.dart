@@ -119,6 +119,77 @@ void closeWritingPages(BuildContext context) {
   );
 }
 
+class WritingPagesBlackText extends StatelessWidget {
+  const WritingPagesBlackText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: Color(0xFF292524),
+        fontSize: 24,
+        fontFamily: 'Pretendard',
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
+class WritingPagesGrayText extends StatelessWidget {
+  const WritingPagesGrayText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: Color(0xFF808080),
+        fontSize: 18,
+        fontFamily: 'Pretendard',
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+}
+
+// class WritingPagesShortTextField extends StatelessWidget {
+//   const WritingPagesShortTextField({
+//     Key? key,
+//     required this.hint,
+//   }) : super(key: key);
+
+//   final String hint;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//         decoration: InputDecoration(
+//           hintText: hint,
+//           hintStyle: const TextStyle(
+//             color: Color(0xFFBEBEBE),
+//             fontSize: 16,
+//             fontFamily: 'Pretendard',
+//             fontWeight: FontWeight.w500,
+//           ),
+//           border: InputBorder.none,
+//         ),
+//         onChanged: (text) {
+//           provideContent(text);
+//         });
+//   }
+// }
+
 class WritingPagesNextbutton extends StatelessWidget {
   // 글쓰기 화면의 '다음' 버튼
   const WritingPagesNextbutton({

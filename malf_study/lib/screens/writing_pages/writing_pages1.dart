@@ -105,15 +105,8 @@ class WritingPages1 extends ConsumerWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     WhiteBox(boxWidth: 5, boxHeight: 0),
-                                    const Text(
-                                      '모임을 소개해주세요.',
-                                      style: TextStyle(
-                                        color: Color(0xFF292524),
-                                        fontSize: 24,
-                                        fontFamily: 'Pretendard',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
+                                    const WritingPagesBlackText(
+                                        text: '모임을 소개해주세요.'),
                                   ],
                                 ),
                                 WhiteBox(
@@ -124,15 +117,7 @@ class WritingPages1 extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       WhiteBox(boxWidth: 5, boxHeight: 0),
-                                      const Text(
-                                        '사진',
-                                        style: TextStyle(
-                                          color: Color(0xFF808080),
-                                          fontSize: 18,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
+                                      const WritingPagesGrayText(text: '사진')
                                     ]),
                                 WhiteBox(
                                     boxWidth: 0,
@@ -355,15 +340,7 @@ class WritingPages1 extends ConsumerWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       WhiteBox(boxWidth: 5, boxHeight: 1),
-                                      const Text(
-                                        '내용',
-                                        style: TextStyle(
-                                          color: Color(0xFF808080),
-                                          fontSize: 18,
-                                          fontFamily: 'Pretendard',
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
+                                      const WritingPagesBlackText(text: '내용')
                                     ]),
                                 WhiteBox(
                                     boxWidth: 0,
@@ -436,7 +413,7 @@ class WritingPages1 extends ConsumerWidget {
                     pressNextButton: _isButtonEnabled
                         ? () {
                             PageRouteWithAnimation pageRouteWithAnimation =
-                                PageRouteWithAnimation(WritingPages2());
+                                PageRouteWithAnimation(const WritingPages2());
                             Navigator.push(context,
                                 pageRouteWithAnimation.slideRitghtToLeft());
                           }
