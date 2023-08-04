@@ -2,6 +2,7 @@ import '/page_animation.dart';
 import '/screens/writing_pages/writing_pages2.dart';
 import 'package:flutter/material.dart';
 import 'writing_pages_util.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override
@@ -11,9 +12,20 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
+final titleController = TextEditingController();
+final contentController = TextEditingController();
+
+final writingPages1TitleProvider = Provider<String>(
+  (ref) {
+    return ref.watch(_writingPages1TitleProvider);
+  },
+);
+
+final _writingPages1TitleProvider =
+    StateProvider<String>((ref) => titleController.text);
+
 class WritingPages1 extends StatefulWidget {
   const WritingPages1({super.key});
-
   static String routeName = "/write";
 
   @override
@@ -21,14 +33,14 @@ class WritingPages1 extends StatefulWidget {
 }
 
 class _WritingPages1 extends State<WritingPages1> {
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
+  // final titleController = TextEditingController();
+  // final contentController = TextEditingController();
   bool _isButtonEnabled = false;
   Color _titleOver40TextColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
-    double _isKeyboardDetected() {
+    double isKeyboardDetected() {
       if (MediaQuery.of(context).viewInsets.bottom != 0) {
         return 22;
       } else {
@@ -48,27 +60,27 @@ class _WritingPages1 extends State<WritingPages1> {
                 children: <Widget>[
                   WhiteBox(boxWidth: 0, boxHeight: 5), // 맨 위 상단 공백
 
-                  Row(
-                    // 글쓰기 화면 상단의 앱바
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                        iconSize: getWidthByPercentOfScreen(6, context),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        iconSize: getWidthByPercentOfScreen(8, context),
-                        onPressed: () {
-                          closeWritingPages(context);
-                        },
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   // 글쓰기 화면 상단의 앱바
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     IconButton(
+                  //       icon: const Icon(Icons.arrow_back_ios_new_outlined),
+                  //       iconSize: getWidthByPercentOfScreen(6, context),
+                  //       onPressed: () {
+                  //         Navigator.pop(context);
+                  //       },
+                  //     ),
+                  //     IconButton(
+                  //       icon: const Icon(Icons.close),
+                  //       iconSize: getWidthByPercentOfScreen(8, context),
+                  //       onPressed: () {
+                  //         closeWritingPages(context);
+                  //       },
+                  //     )
+                  //   ],
+                  // ),
                   WhiteBox(
                     boxWidth: 0,
                     boxHeight: 2,
@@ -76,7 +88,7 @@ class _WritingPages1 extends State<WritingPages1> {
 
                   SizedBox(
                     height: getHeightByPercentOfScreen(
-                        70 - _isKeyboardDetected(), context),
+                        70 - isKeyboardDetected(), context),
                     child: Form(
                       child: Expanded(
                         child: ScrollConfiguration(

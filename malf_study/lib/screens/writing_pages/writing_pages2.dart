@@ -1,21 +1,17 @@
 // import 'package:flutter/cupertino.dart';
 // import '/screens/writing_pages/writing_pages1.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/handle_picker_button.dart';
-import '../../widgets/date_picker.dart';
-import '../../widgets/toggle_date_picker_button.dart';
+import 'package:malf_study/screens/writing_pages/writing_pages1.dart';
 import 'writing_pages_util.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WritingPages2 extends StatelessWidget {
-  // const WritingPages2({super.key});
+class WritingPages2 extends ConsumerWidget {
+  const WritingPages2({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    void moveBackScreen() {
-      Navigator.pop(context);
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final readWritingPagesTitle = ref.watch(writingPages1TitleProvider);
 
     return MaterialApp(
       localizationsDelegates: const [
@@ -34,27 +30,28 @@ class WritingPages2 extends StatelessWidget {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
+            WhiteBox(boxWidth: 0, boxHeight: 5), // 맨 위 상단 공백
+
+            Row(
               // 글쓰기 화면 상단의 앱바
-              padding: const EdgeInsets.only(top: 50),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_outlined),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      closeWritingPages(context);
-                    },
-                  )
-                ],
-              ),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new_outlined),
+                  iconSize: getWidthByPercentOfScreen(6, context),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  iconSize: getWidthByPercentOfScreen(8, context),
+                  onPressed: () {
+                    closeWritingPages(context);
+                  },
+                )
+              ],
             ),
             const Row(
               // 일정과 시간을 입력해주세요.
@@ -93,7 +90,7 @@ class WritingPages2 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -105,7 +102,7 @@ class WritingPages2 extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '모임 날짜',
+                                  'Test: ${ref.read(writingPages1TitleProvider)}',
                                   style: TextStyle(
                                     color: Color(0xFF808080),
                                     fontSize: 14,
@@ -130,40 +127,9 @@ class WritingPages2 extends StatelessWidget {
                 ),
               ],
             ),
-            Center(
-              child: ToggleDatePicker(
-                showPicker: showPicker,
-              ),
-            ),
           ],
         )),
       ),
-    );
-  }
-
-  Future<void> showPicker(BuildContext context) {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: getHeightByPercentOfScreen(33.0, context),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: HandlePickerButton(
-                  onPressDone: () => Navigator.pop(context),
-                  onPressCancel: () => Navigator.pop(context),
-                ),
-              ),
-              const Expanded(
-                flex: 13,
-                child: CuDatePicker(),
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 }

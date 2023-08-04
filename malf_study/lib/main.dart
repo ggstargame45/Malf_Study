@@ -8,6 +8,7 @@ import 'dart:convert';
 import './detail_page.dart';
 import './list_page.dart';
 import 'screens/writing_pages/writing_pages1.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 var namedRoutes = <String, WidgetBuilder>{
   '/': (context) => const HttpWithHttpScreen(),
@@ -18,7 +19,8 @@ var namedRoutes = <String, WidgetBuilder>{
 void main() {
   //Provider.debugCheckInvalidValueType = null;
   //TODO:hi junsoo_
-  runApp(const MyApp());
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
